@@ -16,6 +16,18 @@ class RequestTest extends PHPUnit_Framework_TestCase {
     $this->config = null;
   }
 
+  /**
+  * @expectedException        InvalidArgumentException
+  * @expectedExceptionMessage The [NOT_A_URL] is wrong formatted!
+  */
+  public function testWillThrowExceptionOnInvalidIndex() {
+    $url = "NOT_A_URL";
+
+    $this->request->setUrl($url);
+
+    throw new InvalidArgumentException("The [$url] is wrong formatted!", 10);
+  }
+
   public function testCanSetUrl() {
     $url = "https://www.spotify.com/se/";
 
