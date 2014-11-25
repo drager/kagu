@@ -20,6 +20,18 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 
   /**
   * @expectedException        InvalidArgumentException
+  * @expectedExceptionMessage The index: SOMETHING_THAT_DOES_NOT_EXIST does not exist
+  */
+  public function testWillThrowExceptionOnInvalidIndex() {
+    $config = new Config("../kagu/tests/Config/TestConfigFile.php");
+
+    $config->get("SOMETHING_THAT_DOES_NOT_EXIST");
+
+    throw new InvalidArgumentException("The index: SOMETHING_THAT_DOES_NOT_EXIST does not exist", 10);
+  }
+
+  /**
+  * @expectedException        InvalidArgumentException
   * @expectedExceptionMessage The file name: SomeFile.php does not exist
   */
   public function testWillThrowExceptionOnFileNotFound() {
