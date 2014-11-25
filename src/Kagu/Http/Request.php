@@ -99,10 +99,6 @@ class Request implements RequestAdapterInterface {
 
     $body = array_pop($data);
 
-    if ($response === false) {
-      throw new \Exception("Server not responding");
-    }
-
     return new Response($body, $http_response_header);
   }
 
@@ -117,10 +113,6 @@ class Request implements RequestAdapterInterface {
     $data = explode("\r", $response);
 
     $body = array_pop($data);
-
-    if ($response === false) {
-      throw new \Exception("Server not responding");
-    }
 
     return new Response($body, $http_response_header);
   }
