@@ -39,15 +39,15 @@ class Response {
     }
 
     if ($status === self::STATUS_401) {
-      throw new HttpStatus404Exception("Unauthorized.");
+      throw new HttpStatus401Exception("Unauthorized.");
     }
 
     if ($status === self::STATUS_422) {
-      throw new HttpStatus404Exception("Unprocessable Entity.");
+      throw new HttpStatus422Exception("Unprocessable Entity.");
     }
 
     if ($status === self::STATUS_500) {
-      throw new \Exception("Something unexpected happend.");
+      throw new HttpStatus500Exception("Something unexpected happend.");
     }
   }
 
