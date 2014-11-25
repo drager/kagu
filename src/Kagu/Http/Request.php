@@ -3,7 +3,7 @@
 namespace Kagu\Http;
 
 use Kagu\Http\Response;
-use Kagu\Exception\Exceptions\NotImplementedException;
+use Kagu\Exception\NotImplementedException;
 
 /**
  * Our Http Request class that does the magic for our

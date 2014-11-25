@@ -1,6 +1,7 @@
 <?php
 
 use Kagu\Http;
+use Kagu\Exception\NotImplementedException;
 
 class RequestTest extends PHPUnit_Framework_TestCase {
   private $request;
@@ -50,7 +51,17 @@ class RequestTest extends PHPUnit_Framework_TestCase {
     }
 
     $this->assertTrue($hasFound);
+  }
 
+  public function testCanGetUrl() {
+    $url = "https://www.spotify.com/se/";
+
+    // Set a new url
+    $this->request->setUrl($url);
+
+    $objUrl = $this->request->getUrl();
+
+    $this->assertEquals($url, $objUrl);
   }
 
   public function testCanMakeHttpRequest() {
@@ -70,6 +81,29 @@ class RequestTest extends PHPUnit_Framework_TestCase {
     }
 
     $this->assertTrue($hasFound);
+  }
 
+  /**
+  * @expectedException        Kagu\Exception\NotImplementedException
+  * @expectedExceptionMessage The PUT METHOD is not implemented just yet!
+  */
+  public function testWillThrowExceptionOnPutRquest() {
+    $data = array("title" => "Kagu", "body" => "Welcome to the Kagu website");
+
+    // Make a put request
+    $this->request->put($data);
+
+    throw new Kagu\Exception\NotImplementedException("The PUT METHOD is not implemented just yet!", 10);
+  }
+
+  /**
+  * @expectedException        Kagu\Exception\NotImplementedException
+  * @expectedExceptionMessage The DELETE METHOD is not implemented just yet!
+  */
+  public function testWillThrowExceptionOnDeleteRquest() {
+    // Make a delete request
+    $this->request->delete();
+
+    throw new Kagu\Exception\NotImplementedException("The DELETE METHOD is not implemented just yet!", 10);
   }
 }
