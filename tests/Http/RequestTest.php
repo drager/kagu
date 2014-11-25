@@ -64,7 +64,7 @@ class RequestTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($url, $objUrl);
   }
 
-  public function testCanMakeHttpRequest() {
+  public function testCanMakeHttpGetRequest() {
     // Make a request and get our response
     $response = $this->request->get();
 
@@ -81,6 +81,19 @@ class RequestTest extends PHPUnit_Framework_TestCase {
     }
 
     $this->assertTrue($hasFound);
+  }
+
+  public function testCanMakeHttpPostRequest() {
+    $data = array("title" => "Kagu", "body" => "Welcome to the Kagu website");
+
+    $this->request->setUrl("http://postcatcher.in/catchers/5474ed722d7d070200000362");
+
+    // Make a request and get our response
+    $response = $this->request->post($data);
+
+    $body = $response->getBody();
+
+    $this->assertEquals("Created", $body);
   }
 
   /**

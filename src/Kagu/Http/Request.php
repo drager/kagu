@@ -60,7 +60,7 @@ class Request implements RequestAdapterInterface {
       $context = array(
         "http" => array(
           "method"           => $method,
-          "user_agent"       => self::NAME . self::VERSION,
+          "user_agent"       => self::NAME . " " . self::VERSION,
           "ignore_errors"    => $ignore_errors,
           "follow_location"  => $follow_location,
           "content"          => $data
@@ -70,7 +70,7 @@ class Request implements RequestAdapterInterface {
     $context = array(
       "http" => array(
         "method"           => $method,
-        "user_agent"       => self::NAME . self::VERSION,
+        "user_agent"       => self::NAME . " " . self::VERSION,
         "ignore_errors"    => $ignore_errors,
         "follow_location"  => $follow_location
       )
