@@ -14,7 +14,6 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 
   public function tearDown() {
     $this->request = null;
-    $this->config = null;
   }
 
   /**
