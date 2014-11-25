@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../../src/Config/Config.php';
+require __DIR__.'/../../vendor/autoload.php';
 
 use Kagu\Config\Config;
 

@@ -2,8 +2,6 @@
 
 namespace Kagu\Database;
 
-use Kagu\Config\Config;
-
 /**
  * MysqlAdapter for adapting Mysql to do database queries.
  * @package Kagu Database

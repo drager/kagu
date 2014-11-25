@@ -16,5 +16,10 @@
         "mockery/mockery": "~0.9",
         "phpunit/phpunit": "4.*",
         "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Kagu": "src/"
+        }
     }
 }

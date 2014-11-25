@@ -28,26 +28,8 @@ class RequestAdapter implements RequestAdapterInterface {
   /**
    * @return String $url
    */
-  public function getUrl($key) {
-    return $this->request->getHeader($key);
-  }
-
-  /**
-   * @param String $method, defaults to the GET method.
-   * @param Boolean $ignore_errors, defaults to true.
-   * @param Integer $follow_location, defaults to 0.
-   * @return Array
-   */
-  private function getContext($method = self::METHOD_GET, $ignore_errors = true, $follow_location = 0, array $data = null) {
-    return $this->request->getContext($method, $ignore_errors, $follow_location, $data)
-  }
-
-  /**
-   * @param Array $options
-   * @return Streaming object
-   */
-  private function createStream($options = array()) {
-    return $this->request->createStream($options);
+  public function getUrl() {
+    return $this->request->getUrl();
   }
 
   /**

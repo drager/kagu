@@ -2,8 +2,6 @@
 
 namespace Kagu\Cache;
 
-use Kagu\Config\Config;
-
 /**
  * MemcachedAdapter for adapting Cache to do touch the cache.
  * @package Kagu Cache
