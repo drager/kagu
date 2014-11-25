@@ -16,10 +16,14 @@ before_script:
 
 script:
   - mkdir -p build/logs
-  - vendor/bin/phpunit --verbose --coverage-clover build/logs/clover.xml
+  - vendor/bin/phpunit --verbose --coverage-clover build/logs/clover.xml tests/
 
 after_script:
   - vendor/bin/coveralls
 
 matrix:
   fast_finish: true
+
+notifications:
+  email: false
+  irc: "irc.freenode.net#kagu"
