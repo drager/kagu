@@ -1,6 +1,0 @@
-mysql: &mysql
-  adapter: mysql2
-  database: kagu
-  username: root
-  password:
-  encoding: utf8
