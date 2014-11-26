@@ -50,7 +50,7 @@ class MysqlAdapter implements DatabaseAdapterInterface {
   }
 
   public function delete($table, array $where = null, array $params) {
-    return return $this->mysql->delete($table, $where, $params);
+    return $this->mysql->delete($table, $where, $params);
   }
 
   /**

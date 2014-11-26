@@ -6,7 +6,7 @@ namespace Kagu\Database;
  * MysqlAdapter for adapting Mysql to do database queries.
  * @package Kagu Database
  */
-class MysqlAdapter {
+class Mysql {
 
   protected $config;
 
