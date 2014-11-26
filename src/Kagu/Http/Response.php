@@ -2,7 +2,7 @@
 
 namespace Kagu\Http;
 
-use Kagu\Exception\HttpStatus404Exception;
+use Kagu\Exception;
 
 /**
  * Our Http Response class that does the magic for our
@@ -17,8 +17,9 @@ class Response {
   /**
    * Standard HTTP status codes.
    */
-  const STATUS_404 = 404;
   const STATUS_401 = 401;
+  const STATUS_403 = 403;
+  const STATUS_404 = 404;
   const STATUS_422 = 422;
   const STATUS_500 = 500;
 
@@ -34,20 +35,24 @@ class Response {
 
     $status = (int)strtok($status, " ");
 
-    if ($status === self::STATUS_404) {
-      throw new HttpStatus404Exception("Page not found.");
+    if ($status === self::STATUS_401) {
+      throw new Exception\HttpStatus401Exception("Unauthorized.");
     }
 
-    if ($status === self::STATUS_401) {
-      throw new HttpStatus401Exception("Unauthorized.");
+    if ($status === self::STATUS_403) {
+      throw new Exception\HttpStatus403Exception("Forbidden.");
+    }
+
+    if ($status === self::STATUS_404) {
+      throw new Exception\HttpStatus404Exception("Page not found.");
     }
 
     if ($status === self::STATUS_422) {
-      throw new HttpStatus422Exception("Unprocessable Entity.");
+      throw new Exception\HttpStatus422Exception("Unprocessable Entity.");
     }
 
     if ($status === self::STATUS_500) {
-      throw new HttpStatus500Exception("Something unexpected happend.");
+      throw new Exception\HttpStatus500Exception("Something unexpected happend.");
     }
   }
 

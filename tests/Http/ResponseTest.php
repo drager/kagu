@@ -1,6 +1,7 @@
 <?php
 
 use Kagu\Http;
+use Kagu\Exception;
 
 class ResponseTest extends PHPUnit_Framework_TestCase {
   private $request;
@@ -10,7 +11,7 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
   public function setUp() {
     $this->url = "https://github.com";
     $this->request = new \Kagu\Http\RequestAdapter(new Http\Request($this->url));
-    $this->response = $this->request->get();
+    // $this->response = $this->request->get();
   }
 
   public function tearDown() {
@@ -18,10 +19,68 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
     $this->response = null;
   }
 
+  /**
+  * @expectedException        Kagu\Exception\HttpStatus401Exception
+  * @expectedExceptionMessage Unauthorized.
+  */
+  public function testWillThrowExceptionOnStatus401() {
+    $url = "https://api.github.com/user";
+
+    $this->request->setUrl($url);
+
+    $this->request->get();
+
+    throw new Exception\HttpStatus401Exception("Unauthorized.");
+  }
+
+  /**
+  * @expectedException        Kagu\Exception\HttpStatus403Exception
+  * @expectedExceptionMessage Forbidden.
+  */
+  public function testWillThrowExceptionOnStatus403() {
+    $url = "https://github.com/";
+
+    $this->request->setUrl($url);
+
+    $this->request->post(array("NO" => "DATA"));
+
+    throw new Exception\HttpStatus401Exception("Forbidden.");
+  }
+
+  /**
+  * @expectedException        Kagu\Exception\HttpStatus404Exception
+  * @expectedExceptionMessage Page not found.
+  */
+  public function testWillThrowExceptionOnStatus404() {
+    $url = "https://github.com/not_a_valid_url";
+
+    $this->request->setUrl($url);
+
+    $this->request->get();
+
+    throw new Exception\HttpStatus404Exception("Page not found.");
+  }
+
+  // /**
+  // * @expectedException        Kagu\Exception\HttpStatus422Exception
+  // * @expectedExceptionMessage Unprocessable Entity.
+  // */
+  // public function testWillThrowExceptionOnStatus422() {
+  //   $url = "https://api.github.com/user";
+
+  //   $this->request->setUrl($url);
+
+  //   $response = $this->request->post(array("ASD" => "ASD"));
+
+  //   throw new Exception\HttpStatus422Exception("Unprocessable Entity.");
+  // }
+
   public function testCanGetBody() {
     $expectedArray = array("title" => "GitHub · Build software better, together.");
 
-    $bodyData = $this->response->getBody();
+    $response = $this->request->get();
+
+    $bodyData = $response->getBody();
 
     $hasFound = false;
 
@@ -38,7 +97,9 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
 
     $expectedArray = array("Server" => "GitHub.com");
 
-    $server = $this->response->getHeader($key);
+    $response = $this->request->get();
+
+    $server = $response->getHeader($key);
 
     $this->assertEquals($expectedArray[$key], $server);
   }
@@ -48,7 +109,9 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
 
     $expectedArray = array("Server" => "GitHub.com");
 
-    $headers = $this->response->getHeaders();
+    $response = $this->request->get();
+
+    $headers = $response->getHeaders();
 
     $hasFound = false;
     foreach($headers as $header) {
