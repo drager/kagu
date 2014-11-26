@@ -1,7 +1,5 @@
 <?php
 
-require __DIR__.'/../../vendor/autoload.php';
-
 use Kagu\Config\Config;
 
 class ConfigTest extends PHPUnit_Framework_TestCase {
