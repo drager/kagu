@@ -108,10 +108,6 @@ class Response {
     $headersArr = array();
 
     foreach ($headers as $i => $header) {
-      if ($header === "") {
-        continue;
-      }
-
       $parts = explode(": ", $header);
 
       if (isset($parts[1])) {
