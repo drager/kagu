@@ -101,9 +101,7 @@ class Mysql {
 
     $query = $db->prepare($sql);
 
-    if ($query->execute($params)) {
-      return true;
-    }
+    return $query->execute($params) ? true : false;
   }
 
   public function delete($table, array $where = null, array $params = null) {
