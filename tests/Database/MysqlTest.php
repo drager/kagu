@@ -74,7 +74,34 @@ class MysqlTest extends PHPUnit_Framework_TestCase {
     $this->assertInstanceOf('PDO', $db);
   }
 
-  public function testCanConnectSelectData() {
+  public function testCanInsertData() {
+    $db = $this->dbConnection->connect();
+
+    $expectedArrayFirst = array(
+      "username" => "drager",
+      "password" => "password",
+      "created_at" => date('Y-m-d H:i:s'),
+      "updated_at" => date('Y-m-d H:i:s')
+    );
+
+    $expectedArraySecond = array(
+      "username" => "asdasd",
+      "password" => "password",
+      "created_at" => date('Y-m-d H:i:s'),
+      "updated_at" => date('Y-m-d H:i:s')
+    );
+
+    $table = "users";
+
+    // Get our result from the database
+    $resultOne = $this->dbConnection->insert($table, $expectedArrayFirst);
+    $resultTwo = $this->dbConnection->insert($table, $expectedArraySecond);
+
+    $this->assertTrue($resultOne);
+    $this->assertTrue($resultTwo);
+  }
+
+  public function testCanSelectData() {
     $db = $this->dbConnection->connect();
 
     $expectedArray = array(
@@ -91,25 +118,7 @@ class MysqlTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals($expectedArray["password"], $result[0]["password"]);
   }
 
-  public function testCanConnectInsertData() {
-    $db = $this->dbConnection->connect();
-
-    $expectedArray = array(
-      "username" => "asdasd",
-      "password" => "password",
-      "created_at" => date('Y-m-d H:i:s'),
-      "updated_at" => date('Y-m-d H:i:s')
-    );
-
-    $table = "users";
-
-    // Get our result from the database
-    $result = $this->dbConnection->insert($table, $expectedArray);
-
-    $this->assertTrue($result);
-  }
-
-  public function testCanConnectDeleteData() {
+  public function testCanDeleteData() {
     $db = $this->dbConnection->connect();
 
     $expectedArray = array("asdasd");
@@ -122,6 +131,37 @@ class MysqlTest extends PHPUnit_Framework_TestCase {
     $result = $this->dbConnection->delete($table, $where, $expectedArray);
 
     $this->assertTrue($result);
+  }
+
+  public function testCanSelectDataButIsNulled() {
+    $db = $this->dbConnection->connect();
+
+    $table = "users";
+
+    // Remove the old data...
+    $this->dbConnection->delete($table);
+
+    // Get our result from the database
+    $result = $this->dbConnection->select($table);
+
+    $this->assertNull($result);
+  }
+
+  public function testCanCreateDatabase() {
+    $db = $this->dbConnection->connect();
+
+    // Create a test database
+    $testDB = $this->dbConnection->create(
+      "test",
+      array(
+        "id" => "INT NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL",
+        "password" => "VARCHAR(255) NOT NULL",
+        "created_at" => "DATETIME NOT NULL",
+        "updated_at" => "DATETIME NOT NULL"
+      )
+    );
+
+    $this->assertTrue($testDB);
   }
 }
 

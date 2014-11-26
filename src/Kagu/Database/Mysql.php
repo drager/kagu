@@ -106,7 +106,7 @@ class Mysql {
     }
   }
 
-  public function delete($table, array $where = null, array $params) {
+  public function delete($table, array $where = null, array $params = null) {
     $db = $this->dbConnection;
 
     if ($where > 1) {
@@ -117,7 +117,7 @@ class Mysql {
 
     $query = $db->prepare($sql);
 
-    $query->execute($params);
+    $params ? $query->execute($params) : $query->execute();
 
     return $query->rowCount() ? true : false;
   }
@@ -146,8 +146,6 @@ class Mysql {
 
     $sql = "CREATE TABLE " . $table . " (" . $new . ")";
 
-    if ($db->exec($sql) === false) {
-      throw new \Exception("'$sql' failed " . $db->error);
-    }
+    return true;
   }
 }
