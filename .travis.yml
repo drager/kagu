@@ -13,7 +13,6 @@ before_script:
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
   - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - cp config/database.travis.yml config/database.yml
   - mysql -e 'create database kagu;'
   - mysql -e 'create table users (id INT NOT NULL AUTO_INCREMENT, username VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, primary key(id));' kagu
   - mysql -e 'insert into users (username, password, created_at, updated_at) VALUES ("drager", "password", now(), now());' kagu
