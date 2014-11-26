@@ -2,15 +2,15 @@
 
 use Kagu\Database;
 
-class RequestTest extends PHPUnit_Framework_TestCase {
+class MysqlTest extends PHPUnit_Framework_TestCase {
   private $config;
   private $dbConnection;
 
   public function setUp() {
     $this->config = array(
       "DB_CONNECTION" => "mysql:host=127.0.0.1;dbname=kagu",
-      "DB_USER" => "appUser",
-      "DB_PASSWORD" => "password"
+      "DB_USER" => "root",
+      "DB_PASSWORD" => ""
     );
     $this->dbConnection = new Database\MysqlAdapter(new Database\Mysql($this->config));
   }
@@ -27,8 +27,8 @@ class RequestTest extends PHPUnit_Framework_TestCase {
   public function testWillThrowExceptionWithoutConnectionString() {
     $this->config = array(
       "DB_CONNECTION" => null,
-      "DB_USER" => "appUser",
-      "DB_PASSWORD" => "password"
+      "DB_USER" => "root",
+      "DB_PASSWORD" => ""
     );
 
     $this->dbConnection = new Database\MysqlAdapter(new Database\Mysql($this->config));
@@ -44,7 +44,7 @@ class RequestTest extends PHPUnit_Framework_TestCase {
     $this->config = array(
       "DB_CONNECTION" => "mysql:host=127.0.0.1;dbname=kagu",
       "DB_USER" => null,
-      "DB_PASSWORD" => "password"
+      "DB_PASSWORD" => ""
     );
 
     $this->dbConnection = new Database\MysqlAdapter(new Database\Mysql($this->config));
@@ -59,7 +59,7 @@ class RequestTest extends PHPUnit_Framework_TestCase {
   public function testWillThrowExceptionWithoutDbPassword() {
     $this->config = array(
       "DB_CONNECTION" => "mysql:host=127.0.0.1;dbname=kagu",
-      "DB_USER" => "appUser",
+      "DB_USER" => "root",
       "DB_PASSWORD" => null
     );
 
@@ -89,6 +89,39 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 
     $this->assertEquals($expectedArray["username"], $result[0]["username"]);
     $this->assertEquals($expectedArray["password"], $result[0]["password"]);
+  }
+
+  public function testCanConnectInsertData() {
+    $db = $this->dbConnection->connect();
+
+    $expectedArray = array(
+      "username" => "asdasd",
+      "password" => "password",
+      "created_at" => date('Y-m-d H:i:s'),
+      "updated_at" => date('Y-m-d H:i:s')
+    );
+
+    $table = "users";
+
+    // Get our result from the database
+    $result = $this->dbConnection->insert($table, $expectedArray);
+
+    $this->assertTrue($result);
+  }
+
+  public function testCanConnectDeleteData() {
+    $db = $this->dbConnection->connect();
+
+    $expectedArray = array("asdasd");
+
+    $where = array("username");
+
+    $table = "users";
+
+    // Get our result from the database
+    $result = $this->dbConnection->delete($table, $where, $expectedArray);
+
+    $this->assertTrue($result);
   }
 }
 
