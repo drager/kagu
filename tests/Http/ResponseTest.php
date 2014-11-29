@@ -38,13 +38,13 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
   * @expectedExceptionMessage Forbidden.
   */
   public function testWillThrowExceptionOnStatus403() {
-    $url = "https://github.com/";
+    $url = "https://github.com/drager/kagu.git/info/refs";
 
     $this->request->setUrl($url);
 
-    $this->request->post(array("NO" => "DATA"));
+    $this->request->get();
 
-    throw new Exception\HttpStatus401Exception("Forbidden.");
+    throw new Exception\HttpStatus403Exception("Forbidden.");
   }
 
   /**
@@ -61,19 +61,33 @@ class ResponseTest extends PHPUnit_Framework_TestCase {
     throw new Exception\HttpStatus404Exception("Page not found.");
   }
 
-  // /**
-  // * @expectedException        Kagu\Exception\HttpStatus422Exception
-  // * @expectedExceptionMessage Unprocessable Entity.
-  // */
-  // public function testWillThrowExceptionOnStatus422() {
-  //   $url = "https://api.github.com/user";
+  /**
+  * @expectedException        Kagu\Exception\HttpStatus422Exception
+  * @expectedExceptionMessage Unprocessable Entity.
+  */
+  public function testWillThrowExceptionOnStatus422() {
+    $url = "https://api.github.com/search/users";
 
-  //   $this->request->setUrl($url);
+    $this->request->setUrl($url);
 
-  //   $response = $this->request->post(array("ASD" => "ASD"));
+    $response = $this->request->post(array("ASD" => "ASD"));
 
-  //   throw new Exception\HttpStatus422Exception("Unprocessable Entity.");
-  // }
+    throw new Exception\HttpStatus422Exception("Unprocessable Entity.");
+  }
+
+  /**
+  * @expectedException        Kagu\Exception\HttpStatus500Exception
+  * @expectedExceptionMessage Something unexpected happend.
+  */
+  public function testWillThrowExceptionOnStatus500() {
+    $url = "http://jesperh.se/500/";
+
+    $this->request->setUrl($url);
+
+    $response = $this->request->post(array("ASD" => "ASD"));
+
+    throw new Exception\HttpStatus500Exception("Something unexpected happend.");
+  }
 
   public function testCanGetBody() {
     $expectedArray = array("title" => "GitHub · Build software better, together.");
